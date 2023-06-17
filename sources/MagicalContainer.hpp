@@ -1,149 +1,149 @@
-#pragma once
+#ifndef MAGICAL_CONTAINER_HPP
+#define MAGICAL_CONTAINER_HPP
 
+#include <iterator>
 #include <vector>
+#include <list>
+#include <set>
+
+using namespace std;
 
 namespace ariel
 {
-	class MagicalContainer
-	{
-		private:
-			std::vector<int> elements;
+    class MagicalContainer
+    {
 
-		public:
-			MagicalContainer();
+        private:
 
-			void addElement(int element);
+            vector<int*> crossElem;
 
-			void removeElement(int element);
+            vector<int*> ascendElam;
+            
+            vector<int*> primeElem;
 
-			std::size_t size() const {
-				return elements.size();
-			}
+            vector<int> baseElam;
 
-			class AscendingIterator
-			{
-				private:
-					MagicalContainer &container;
-					std::size_t currentIndex;
+        public:
+            void addElement(int element);
 
-					AscendingIterator(MagicalContainer &container, std::size_t index);
+            void removeElement(int element);
 
-				public:
-					AscendingIterator(MagicalContainer &cont);
+            int size();
 
-					~AscendingIterator() = default;
+            void refreshCross();
 
-					AscendingIterator(const AscendingIterator &other);
+            void refreshPrime();
 
-					AscendingIterator &operator=(const AscendingIterator &other);
+            void refreshAscend();
+            
+            void sortBaselElem();
 
-					AscendingIterator(AscendingIterator &&other) noexcept;
 
-					AscendingIterator &operator=(AscendingIterator &&other) noexcept;
+        class AscendingIterator
+        {
+            private:
+                MagicalContainer& container;
+                vector<int*>::iterator iter;
+                size_t ind;
 
-					bool operator==(const AscendingIterator &other) const;
+            public:
+                // Constructors
+                AscendingIterator(MagicalContainer& container);
+                AscendingIterator(const AscendingIterator& other);
+                ~AscendingIterator() = default;
+                AscendingIterator& operator=(const AscendingIterator& other); // Copy assignment operator
+                 AscendingIterator(AscendingIterator&& other) noexcept = default; // Move constructor
+                AscendingIterator& operator=(AscendingIterator&& other) noexcept {return *this;} // Move assignment operator
 
-					bool operator!=(const AscendingIterator &other) const;
 
-					bool operator<(const AscendingIterator &other) const;
+                // Operators
+                AscendingIterator& operator++(); 
+                int operator*(); 
+                
+                // Comparison operators
+                bool operator==(const AscendingIterator& other) const;
 
-					bool operator>(const AscendingIterator &other) const;
+                bool operator!=(const AscendingIterator& other) const;
 
-					int operator*() const;
+                bool operator<(const AscendingIterator& other) const;
 
-					AscendingIterator &operator++();
+                bool operator>(const AscendingIterator& other) const;
 
-					AscendingIterator begin() {
-						return AscendingIterator(container, 0);
-					}
+                // Getters
+                AscendingIterator &begin(); 
+                AscendingIterator &end();
+        };
 
-					AscendingIterator end() const {
-						return AscendingIterator(container, container.size());
-					}
-			};
+        class SideCrossIterator
+        {
+            private:
+                MagicalContainer& container;
+                vector<int*>::iterator iter;
+                size_t ind;
 
-			class SideCrossIterator
-			{
-				private:
-					MagicalContainer &container;
-					std::size_t currentIndex;
+            public:
+                // Constructors
+                SideCrossIterator(MagicalContainer& container);
+                SideCrossIterator(const SideCrossIterator& other);
+                ~SideCrossIterator() = default;
+                SideCrossIterator& operator=(const SideCrossIterator& other); // Copy assignment operator
+                SideCrossIterator(SideCrossIterator&& other) noexcept = default; // Move constructor
+                SideCrossIterator& operator=(SideCrossIterator&& other) noexcept {return *this;} // Move assignment operator
 
-					SideCrossIterator(MagicalContainer &container, std::size_t index);
+                // Operators
+                SideCrossIterator& operator++(); 
+                int& operator*(); // dereference operator
 
-				public:
-					SideCrossIterator(MagicalContainer &cont);
+                // Comparison operators
+                bool operator==(const SideCrossIterator& other) const;
 
-					~SideCrossIterator() = default;
+                bool operator!=(const SideCrossIterator& other) const;
 
-					SideCrossIterator(const SideCrossIterator &other);
+                bool operator<(const SideCrossIterator& other) const;
 
-					SideCrossIterator &operator=(const SideCrossIterator &other);
+                bool operator>(const SideCrossIterator& other) const;
 
-					SideCrossIterator(SideCrossIterator &&other) noexcept;
+                // Getters
+                SideCrossIterator &begin(); 
+                SideCrossIterator &end();
+        };
 
-					SideCrossIterator &operator=(SideCrossIterator &&other) noexcept;
 
-					bool operator==(const SideCrossIterator &other) const;
+        class PrimeIterator
+        {
+            private:
+                MagicalContainer& container;
+                vector<int*>::iterator iter;
+                size_t ind;
 
-					bool operator!=(const SideCrossIterator &other) const;
+            public:
+                // Constructors
+                PrimeIterator(MagicalContainer& container);
+                PrimeIterator(const PrimeIterator& other);
+                ~PrimeIterator() = default;
+                PrimeIterator& operator=(const PrimeIterator& other); // Copy assignment operator
+                PrimeIterator(PrimeIterator&& other) noexcept = default; // Move constructor
+                PrimeIterator& operator=(PrimeIterator&& other) noexcept {return *this;} // Move assignment operator
 
-					bool operator<(const SideCrossIterator &other) const;
+                // Operators
+                PrimeIterator& operator++(); 
+                int& operator*(); 
 
-					bool operator>(const SideCrossIterator &other) const;
+                // Comparison operators
+                bool operator==(const PrimeIterator& other) const;
+                bool operator!=(const PrimeIterator& other) const;
+                bool operator<(const PrimeIterator& other) const;
+                bool operator>(const PrimeIterator& other) const;
 
-					int operator*() const;
+                // Getters
+                PrimeIterator &begin(); 
+                PrimeIterator &end();
+        };
+            
 
-					SideCrossIterator &operator++();
 
-					SideCrossIterator begin() {
-						return SideCrossIterator(container, 0);
-					}
 
-					SideCrossIterator end() const {
-						return SideCrossIterator(container, container.size());
-					}
-			};
-
-			class PrimeIterator
-			{
-				private:
-					MagicalContainer &container;
-					std::size_t currentIndex;
-
-					PrimeIterator(MagicalContainer &container, std::size_t index);
-
-				public:
-					PrimeIterator(MagicalContainer &cont);
-
-					~PrimeIterator() = default;
-
-					PrimeIterator(const PrimeIterator &other);
-
-					PrimeIterator &operator=(const PrimeIterator &other);
-
-					PrimeIterator(PrimeIterator &&other) noexcept;
-
-					PrimeIterator &operator=(PrimeIterator &&other) noexcept;
-
-					bool operator==(const PrimeIterator &other) const;
-
-					bool operator!=(const PrimeIterator &other) const;
-
-					bool operator<(const PrimeIterator &other) const;
-
-					bool operator>(const PrimeIterator &other) const;
-
-					int operator*() const;
-
-					PrimeIterator &operator++();
-
-					PrimeIterator begin() {
-						return PrimeIterator(container, 0);
-					}
-
-					PrimeIterator end() const {
-						return PrimeIterator(container, container.size());
-					}
-			};
-	};
+    };
 }
+
+#endif
